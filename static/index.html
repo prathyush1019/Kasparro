@@ -1,0 +1,617 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Resume Screener</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-dark: #0f111a;
+            --bg-panel: rgba(26, 29, 41, 0.7);
+            --border-glow: rgba(108, 122, 255, 0.4);
+            --primary: #6c7aff;
+            --primary-hover: #828fff;
+            --text-main: #e2e8f0;
+            --text-muted: #94a3b8;
+            --success: #10b981;
+            --danger: #ef4444;
+            --warning: #fbbf24;
+        }
+
+        body {
+            margin: 0; padding: 0;
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            min-height: 100vh;
+            background-image: 
+                radial-gradient(circle at 15% 50%, rgba(108, 122, 255, 0.08) 0%, transparent 50%),
+                radial-gradient(circle at 85% 30%, rgba(16, 185, 129, 0.05) 0%, transparent 50%);
+        }
+        .container { max-width: 1100px; margin: 0 auto; padding: 40px 20px; }
+        header { text-align: center; margin-bottom: 30px; }
+        h1 {
+            font-size: 2.5rem; font-weight: 700; margin-bottom: 10px;
+            background: linear-gradient(135deg, #fff 0%, #a5b4fc 100%);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+        }
+        p.subtitle { color: var(--text-muted); font-size: 1.1rem; }
+
+        .glass-panel {
+            background: var(--bg-panel); backdrop-filter: blur(12px);
+            border: 1px solid rgba(255,255,255,0.05); border-radius: 16px;
+            padding: 30px; box-shadow: 0 8px 32px rgba(0,0,0,0.3); margin-bottom: 30px;
+        }
+
+        /* Stepper */
+        .stepper { display: flex; justify-content: center; gap: 0; margin-bottom: 30px; }
+        .step-item {
+            display: flex; align-items: center; gap: 10px;
+            padding: 10px 20px; position: relative;
+        }
+        .step-circle {
+            width: 36px; height: 36px; border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            font-weight: 700; font-size: 0.9rem; border: 2px solid rgba(255,255,255,0.1);
+            color: var(--text-muted); background: rgba(0,0,0,0.2); transition: all 0.3s ease;
+        }
+        .step-item.active .step-circle { background: var(--primary); border-color: var(--primary); color: white; }
+        .step-item.done .step-circle { background: var(--success); border-color: var(--success); color: white; }
+        .step-label { font-size: 0.85rem; color: var(--text-muted); font-weight: 500; }
+        .step-item.active .step-label { color: var(--text-main); }
+        .step-item.done .step-label { color: var(--success); }
+        .step-connector { width: 40px; height: 2px; background: rgba(255,255,255,0.1); align-self: center; }
+        .step-connector.done { background: var(--success); }
+
+        /* Upload */
+        .upload-area {
+            border: 2px dashed rgba(108,122,255,0.3); border-radius: 12px;
+            padding: 40px; text-align: center; transition: all 0.3s ease;
+        }
+        .upload-area:hover, .upload-area.dragover { border-color: var(--primary); background: rgba(108,122,255,0.05); }
+        .upload-icon { font-size: 48px; margin-bottom: 15px; }
+
+        select {
+            background: rgba(0,0,0,0.2); border: 1px solid rgba(255,255,255,0.1);
+            color: white; padding: 12px 16px; border-radius: 8px;
+            font-family: 'Inter'; font-size: 1rem; outline: none; cursor: pointer;
+        }
+        .btn {
+            background: var(--primary); color: white; border: none;
+            padding: 14px 28px; border-radius: 8px; font-size: 1rem;
+            font-weight: 600; cursor: pointer; transition: all 0.2s ease;
+            box-shadow: 0 4px 12px rgba(108,122,255,0.3);
+        }
+        .btn:hover { background: var(--primary-hover); transform: translateY(-2px); }
+        .btn:disabled { background: #475569; cursor: not-allowed; transform: none; box-shadow: none; }
+        .btn-success { background: var(--success); box-shadow: 0 4px 12px rgba(16,185,129,0.3); }
+        .btn-success:hover { background: #059669; }
+
+        .controls-row { display: flex; justify-content: space-between; align-items: center; margin-top: 20px; gap: 20px; }
+
+        /* Phase panel */
+        .phase-panel { display: none; }
+        .phase-panel.active { display: block; }
+
+        .phase-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+        .phase-title { font-size: 1.3rem; font-weight: 700; }
+
+        /* Cards */
+        .result-card {
+            background: rgba(0,0,0,0.2); border: 1px solid rgba(255,255,255,0.05);
+            border-radius: 12px; margin-bottom: 12px; overflow: hidden;
+        }
+        .result-header {
+            padding: 14px 18px; background: rgba(255,255,255,0.02);
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+            display: flex; justify-content: space-between; align-items: center; cursor: pointer;
+        }
+        .result-header:hover { background: rgba(255,255,255,0.05); }
+        .result-body { padding: 18px; display: none; }
+        .result-body.show { display: block; }
+
+        .badge { padding: 4px 10px; border-radius: 20px; font-size: 0.75rem; font-weight: 600; text-transform: uppercase; }
+        .badge.eligible { background: rgba(16,185,129,0.1); color: var(--success); }
+        .badge.rejected { background: rgba(239,68,68,0.1); color: var(--danger); }
+        .badge.warning { background: rgba(245,158,11,0.1); color: var(--warning); }
+        .badge.info { background: rgba(108,122,255,0.1); color: #a5b4fc; }
+
+        pre.json-block {
+            background: rgba(0,0,0,0.3); padding: 15px; border-radius: 8px;
+            font-size: 0.82rem; color: #a5b4fc; overflow-x: auto; white-space: pre-wrap;
+            max-height: 400px; overflow-y: auto;
+        }
+
+        .score-bar-row { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
+        .score-bar-label { width: 180px; font-size: 0.85rem; color: var(--text-muted); }
+        .score-bar-track { flex: 1; height: 8px; background: rgba(255,255,255,0.05); border-radius: 4px; overflow: hidden; }
+        .score-bar-fill { height: 100%; border-radius: 4px; transition: width 0.5s ease; }
+        .score-bar-value { width: 50px; text-align: right; font-size: 0.85rem; font-weight: 600; }
+
+        .skill-chip {
+            display: inline-block; padding: 4px 12px; margin: 3px;
+            background: rgba(108,122,255,0.1); border: 1px solid rgba(108,122,255,0.2);
+            border-radius: 20px; font-size: 0.8rem; color: #a5b4fc;
+        }
+        .concern-item { color: var(--warning); font-size: 0.9rem; margin-bottom: 4px; }
+        .strength-item { color: var(--success); font-size: 0.9rem; margin-bottom: 4px; }
+
+        .rank-badge {
+            background: linear-gradient(135deg, #6c7aff, #a5b4fc); color: white;
+            width: 32px; height: 32px; border-radius: 50%; display: inline-flex;
+            align-items: center; justify-content: center; font-weight: 700; font-size: 0.9rem;
+        }
+        .score-display { font-size: 1.5rem; font-weight: 700; color: var(--primary); }
+
+        .loading-spinner {
+            display: inline-block; width: 20px; height: 20px;
+            border: 3px solid rgba(255,255,255,0.1); border-top: 3px solid var(--primary);
+            border-radius: 50%; animation: spin 0.8s linear infinite; margin-right: 10px;
+        }
+        @keyframes spin { 100% { transform: rotate(360deg); } }
+
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: rgba(0,0,0,0.1); }
+        ::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.2); border-radius: 4px; }
+    </style>
+</head>
+<body>
+<div class="container">
+    <header>
+        <h1>AI Resume Screener</h1>
+        <p class="subtitle">Step-by-step pipeline verification</p>
+    </header>
+
+    <!-- Stepper -->
+    <div class="stepper">
+        <div class="step-item active" id="step-0"><div class="step-circle">0</div><div class="step-label">Parse</div></div>
+        <div class="step-connector" id="conn-0"></div>
+        <div class="step-item" id="step-1"><div class="step-circle">1</div><div class="step-label">LLM Extract</div></div>
+        <div class="step-connector" id="conn-1"></div>
+        <div class="step-item" id="step-2"><div class="step-circle">2</div><div class="step-label">Python Score</div></div>
+        <div class="step-connector" id="conn-2"></div>
+        <div class="step-item" id="step-3"><div class="step-circle">3</div><div class="step-label">LLM Review</div></div>
+    </div>
+
+    <!-- Phase 0: Upload & Parse -->
+    <div class="phase-panel active" id="panel-0">
+        <div class="glass-panel">
+            <div class="upload-area" id="drop-zone">
+                <div class="upload-icon">📁</div>
+                <h3>Upload Resumes</h3>
+                <p style="color: var(--text-muted); font-size: 0.9rem; margin-top: 8px; margin-bottom: 20px;">Supports PDF, DOCX, TXT</p>
+                <div style="display: flex; gap: 15px; justify-content: center;">
+                    <label class="btn" style="padding: 10px 20px; font-size: 0.9rem; display: inline-block;">
+                        Select Folder
+                        <input type="file" id="folder-input" webkitdirectory directory style="display: none;">
+                    </label>
+                    <label class="btn" style="background: rgba(255,255,255,0.1); box-shadow: none; padding: 10px 20px; font-size: 0.9rem; display: inline-block;">
+                        Select Files
+                        <input type="file" id="file-input" multiple accept=".pdf,.docx,.txt" style="display: none;">
+                    </label>
+                </div>
+            </div>
+            <div style="margin-top: 15px; color: var(--text-main); font-weight: 500;" id="selection-status">No files selected.</div>
+            <div class="controls-row">
+                <div>
+                    <span style="font-size: 0.9rem; color: var(--text-muted); display: block; margin-bottom: 8px;">Parser Strategy</span>
+                    <select id="parser-mode">
+                        <option value="fast">Low Latency (PyMuPDF)</option>
+                        <option value="auto">Auto (Docling → PyMuPDF Fallback)</option>
+                        <option value="accurate">High Accuracy (Docling)</option>
+                    </select>
+                </div>
+                <button class="btn" id="btn-phase0" disabled>▶ Run Phase 0: Parse</button>
+            </div>
+        </div>
+        <div id="phase0-results"></div>
+    </div>
+
+    <!-- Phase 1: LLM Extract -->
+    <div class="phase-panel" id="panel-1">
+        <div class="glass-panel">
+            <div class="phase-header">
+                <div class="phase-title">🧠 Phase 1 — LLM Extraction</div>
+                <button class="btn" id="btn-phase1">▶ Run Phase 1: Extract</button>
+            </div>
+            <p style="color: var(--text-muted);">Sends each resume's Markdown to the LLM to extract structured data (name, skills, projects, work experience). Verify the JSON output below before proceeding.</p>
+        </div>
+        <div id="phase1-results"></div>
+    </div>
+
+    <!-- Phase 2: Python Scoring -->
+    <div class="phase-panel" id="panel-2">
+        <div class="glass-panel">
+            <div class="phase-header">
+                <div class="phase-title">⚙️ Phase 2 — Python Scoring</div>
+                <button class="btn" id="btn-phase2">▶ Run Phase 2: Score</button>
+            </div>
+            <p style="color: var(--text-muted);">Runs the deterministic Python script. Checks eligibility (Python + AI evidence), assigns base scores, and async fetches GitHub data. No LLM used here.</p>
+        </div>
+        <div id="phase2-results"></div>
+    </div>
+
+    <!-- Phase 3: LLM Review -->
+    <div class="phase-panel" id="panel-3">
+        <div class="glass-panel">
+            <div class="phase-header">
+                <div class="phase-title">🤖 Phase 3 — LLM Review & Penalties</div>
+                <button class="btn" id="btn-phase3">▶ Run Phase 3: Review</button>
+            </div>
+            <p style="color: var(--text-muted);">Sends base scores + resume data to the LLM. The LLM applies penalties for thin wrappers, tutorial projects, and keyword-only skills. Can only reduce scores, never increase.</p>
+            <details style="margin-top: 15px; background: rgba(0,0,0,0.2); padding: 10px; border-radius: 8px;">
+                <summary style="cursor: pointer; color: var(--primary); font-size: 0.9rem; font-weight: 500;">⚙️ Advanced: Customize LLM Prompt</summary>
+                <textarea id="custom-prompt" style="width: 100%; height: 350px; margin-top: 10px; background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.1); color: var(--text-main); padding: 10px; border-radius: 6px; font-family: monospace; font-size: 0.85rem; resize: vertical;" spellcheck="false">You are a senior technical hiring reviewer for an SDE Intern position requiring Python + AI/Agentic skills.
+
+You are given a candidate's resume extraction and their BASE SCORES assigned by a deterministic scoring script.
+Your job is to REVIEW these scores and APPLY PENALTIES where appropriate.
+
+## PENALTY RULES (you MUST apply these):
+1. Deduct 5-15 points from ai_project_depth when an "AI project" is only a thin wrapper around an LLM/API call 
+   with no meaningful workflow, data processing, retrieval, state management, backend logic, evaluation, or product logic.
+2. Deduct points for tutorial-style projects listed without implementation details or evidence of ownership.
+3. Do NOT award full points just because a framework name appears in the skills section. 
+   Prefer evidence showing HOW it was used in real projects.
+4. A candidate with strong Python but NO meaningful AI project should NOT rank near the top.
+
+## IMPORTANT RULES:
+- You may ONLY REDUCE scores, never increase them above the base scores.
+- Each category has a maximum: ai_project_depth=/40, python_backend=/30, cloud_fullstack=/15, github=/10, engineering_depth=/5
+- Provide a clear penalty_log explaining every deduction you made.
+- If no penalties apply, return the base scores unchanged.
+
+## CANDIDATE DATA:
+Name: {name}
+Source File: {source_file}
+
+### Extracted Skills:
+{skills}
+
+### Projects:
+{projects}
+
+### Work Experience:
+{work_experience}
+
+### Base Scores (from deterministic script):
+{base_scores}
+
+### Scoring Rationale (how base scores were assigned):
+{rationale}
+
+Review and adjust the scores now.</textarea>
+            </details>
+        </div>
+        <div id="phase3-results"></div>
+    </div>
+
+    <!-- Navigation -->
+    <div id="nav-buttons" style="display: flex; justify-content: space-between; margin-top: 20px;">
+        <button class="btn" id="btn-back" style="background: rgba(255,255,255,0.1); box-shadow: none;" disabled>← Back</button>
+        <div style="display: flex; gap: 10px;">
+            <button class="btn" id="btn-download-json" style="background: var(--primary); display: none;">📥 Download JSON</button>
+            <button class="btn btn-success" id="btn-next" disabled>Next Step →</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    let currentPhase = 0;
+    let selectedFiles = [];
+
+    const fileInput = document.getElementById('file-input');
+    const folderInput = document.getElementById('folder-input');
+    const selectionStatus = document.getElementById('selection-status');
+    const parserMode = document.getElementById('parser-mode');
+
+    function handleFilesSelection(files) {
+        selectedFiles = Array.from(files).filter(f =>
+            f.name.toLowerCase().endsWith('.pdf') ||
+            f.name.toLowerCase().endsWith('.docx') ||
+            f.name.toLowerCase().endsWith('.txt')
+        );
+        if (selectedFiles.length > 0) {
+            selectionStatus.textContent = `${selectedFiles.length} resume(s) ready.`;
+            document.getElementById('btn-phase0').disabled = false;
+        } else {
+            selectionStatus.textContent = 'No supported files found.';
+            document.getElementById('btn-phase0').disabled = true;
+        }
+    }
+
+    fileInput.addEventListener('change', e => handleFilesSelection(e.target.files));
+    folderInput.addEventListener('change', e => handleFilesSelection(e.target.files));
+
+    // Drag and Drop
+    const dropZone = document.getElementById('drop-zone');
+    dropZone.addEventListener('dragover', e => { e.preventDefault(); dropZone.classList.add('dragover'); });
+    dropZone.addEventListener('dragleave', e => { e.preventDefault(); dropZone.classList.remove('dragover'); });
+    dropZone.addEventListener('drop', e => {
+        e.preventDefault(); dropZone.classList.remove('dragover');
+        let files = [];
+        if (e.dataTransfer.items) {
+            for (let i = 0; i < e.dataTransfer.items.length; i++) {
+                if (e.dataTransfer.items[i].kind === 'file') files.push(e.dataTransfer.items[i].getAsFile());
+            }
+        }
+        handleFilesSelection(files);
+    });
+
+    function updateStepper() {
+        for (let i = 0; i <= 3; i++) {
+            const el = document.getElementById(`step-${i}`);
+            el.classList.remove('active', 'done');
+            if (i < currentPhase) el.classList.add('done');
+            else if (i === currentPhase) el.classList.add('active');
+
+            if (i < 3) {
+                const conn = document.getElementById(`conn-${i}`);
+                conn.classList.toggle('done', i < currentPhase);
+            }
+
+            document.getElementById(`panel-${i}`).classList.toggle('active', i === currentPhase);
+        }
+
+        document.getElementById('btn-back').disabled = currentPhase === 0;
+    }
+
+    // Navigation
+    document.getElementById('btn-back').addEventListener('click', () => {
+        if (currentPhase > 0) { currentPhase--; updateStepper(); }
+    });
+    document.getElementById('btn-next').addEventListener('click', () => {
+        if (currentPhase < 3) { currentPhase++; updateStepper(); }
+    });
+
+    // ── Phase 0 ──
+    document.getElementById('btn-phase0').addEventListener('click', async () => {
+        const btn = document.getElementById('btn-phase0');
+        btn.disabled = true;
+        btn.innerHTML = '<span class="loading-spinner"></span>Parsing...';
+
+        const formData = new FormData();
+        selectedFiles.forEach(f => formData.append('files', f, f.webkitRelativePath || f.name));
+        formData.append('parser_mode', parserMode.value);
+
+        try {
+            const res = await fetch('/api/phase0', { method: 'POST', body: formData });
+            const data = await res.json();
+            if (data.error) throw new Error(data.error);
+
+            const div = document.getElementById('phase0-results');
+            div.innerHTML = `<p style="color: var(--success); font-weight: 600; margin-bottom: 15px;">✅ Parsed ${data.results.length} resumes (${data.failed.length} failed)</p>`;
+
+            data.results.forEach((r, i) => {
+                div.innerHTML += `
+                    <div class="result-card">
+                        <div class="result-header" onclick="toggle('p0-${i}')">
+                            <div style="display:flex;align-items:center;gap:10px;">
+                                <span>📄 ${esc(r.file_name)}</span>
+                                <span class="badge info">${esc(r.parser_used)}</span>
+                            </div>
+                            <span style="color:var(--text-muted);font-size:0.85rem;">${r.duration_sec}s · ${r.markdown_length} chars ▼</span>
+                        </div>
+                        <div class="result-body" id="p0-${i}">
+                            <pre class="json-block">${esc(r.markdown_preview)}</pre>
+                        </div>
+                    </div>`;
+            });
+
+            btn.textContent = '✅ Phase 0 Complete';
+            document.getElementById('btn-next').disabled = false;
+        } catch (e) {
+            alert('Phase 0 error: ' + e.message);
+            btn.disabled = false; btn.textContent = '▶ Run Phase 0: Parse';
+        }
+    });
+
+    // ── Phase 1 ──
+    document.getElementById('btn-phase1').addEventListener('click', async () => {
+        const btn = document.getElementById('btn-phase1');
+        btn.disabled = true;
+        btn.innerHTML = '<span class="loading-spinner"></span>Extracting via LLM...';
+        document.getElementById('btn-next').disabled = true;
+
+        try {
+            const res = await fetch('/api/phase1', { method: 'POST' });
+            const data = await res.json();
+            if (data.error) throw new Error(data.error);
+
+            const div = document.getElementById('phase1-results');
+            div.innerHTML = `<p style="color: var(--success); font-weight: 600; margin-bottom: 15px;">✅ Extracted ${data.results.length} candidates</p>`;
+
+            data.results.forEach((r, i) => {
+                const name = r.candidate_info ? r.candidate_info.name : r.file_name;
+                div.innerHTML += `
+                    <div class="result-card">
+                        <div class="result-header" onclick="toggle('p1-${i}')">
+                            <div style="display:flex;align-items:center;gap:10px;">
+                                <span>🧠 ${esc(name)}</span>
+                                ${r.extraction_error ? '<span class="badge rejected">Error</span>' : ''}
+                            </div>
+                            <span style="color:var(--text-muted);">▼</span>
+                        </div>
+                        <div class="result-body" id="p1-${i}">
+                            ${r.extraction_error 
+                                ? `<p style="color:var(--danger);">❌ ${esc(r.extraction_error)}</p>`
+                                : `<pre class="json-block">${esc(JSON.stringify(r.candidate_info, null, 2))}</pre>`
+                            }
+                        </div>
+                    </div>`;
+            });
+
+            btn.textContent = '✅ Phase 1 Complete';
+            document.getElementById('btn-next').disabled = false;
+        } catch (e) {
+            alert('Phase 1 error: ' + e.message);
+            btn.disabled = false; btn.textContent = '▶ Run Phase 1: Extract';
+        }
+    });
+
+    // ── Phase 2 ──
+    document.getElementById('btn-phase2').addEventListener('click', async () => {
+        const btn = document.getElementById('btn-phase2');
+        btn.disabled = true;
+        btn.innerHTML = '<span class="loading-spinner"></span>Scoring...';
+        document.getElementById('btn-next').disabled = true;
+
+        try {
+            const res = await fetch('/api/phase2', { method: 'POST' });
+            const data = await res.json();
+            if (data.error) throw new Error(data.error);
+
+            const div = document.getElementById('phase2-results');
+            div.innerHTML = '';
+
+            const eligible = data.results.filter(r => r.eligibility && r.eligibility.eligible);
+            const rejected = data.results.filter(r => r.eligibility && !r.eligibility.eligible);
+            div.innerHTML += `<p style="color: var(--success); font-weight: 600; margin-bottom: 15px;">✅ ${eligible.length} eligible · ${rejected.length} rejected</p>`;
+
+            data.results.forEach((r, i) => {
+                if (!r.eligibility) return;
+                const isElig = r.eligibility.eligible;
+                div.innerHTML += `
+                    <div class="result-card">
+                        <div class="result-header" onclick="toggle('p2-${i}')">
+                            <div style="display:flex;align-items:center;gap:10px;">
+                                <span>⚙️ ${esc(r.file_name)}</span>
+                                <span class="badge ${isElig ? 'eligible' : 'rejected'}">${isElig ? 'Eligible' : 'Rejected'}</span>
+                            </div>
+                            <div style="display:flex;align-items:center;gap:15px;">
+                                <span style="font-weight:700;color:var(--primary);">${r.base_total_score}/100</span>
+                                <span style="color:var(--text-muted);">▼</span>
+                            </div>
+                        </div>
+                        <div class="result-body" id="p2-${i}">
+                            <div style="margin-bottom:15px;">
+                                <strong>Eligible:</strong> ${isElig ? '✅ Yes' : '❌ No'}
+                                ${!isElig ? '<br><strong>Reasons:</strong> ' + r.eligibility.rejection_reasons.map(s => '<span style="color:var(--danger);"> • ' + esc(s) + '</span>').join('<br>') : ''}
+                                ${r.eligibility.python_evidence.length > 0 ? '<br><strong>Python Evidence:</strong> ' + r.eligibility.python_evidence.join(', ') : ''}
+                                ${r.eligibility.ai_evidence.length > 0 ? '<br><strong>AI Evidence:</strong> ' + r.eligibility.ai_evidence.join(', ') : ''}
+                            </div>
+                            <pre class="json-block">${esc(JSON.stringify(r.base_score_breakdown, null, 2))}</pre>
+                            <details style="margin-top:10px;">
+                                <summary style="cursor:pointer;color:var(--primary);font-weight:500;">📝 Scoring Rationale</summary>
+                                <pre class="json-block" style="margin-top:8px;">${esc(r.scoring_rationale.join('\n'))}</pre>
+                            </details>
+                            ${r.matched_skills.length > 0 ? '<div style="margin-top:10px;">' + r.matched_skills.map(s => '<span class="skill-chip">' + esc(s) + '</span>').join('') + '</div>' : ''}
+                        </div>
+                    </div>`;
+            });
+
+            btn.textContent = '✅ Phase 2 Complete';
+            document.getElementById('btn-next').disabled = false;
+        } catch (e) {
+            alert('Phase 2 error: ' + e.message);
+            btn.disabled = false; btn.textContent = '▶ Run Phase 2: Score';
+        }
+    });
+
+    // ── Phase 3 ──
+    document.getElementById('btn-phase3').addEventListener('click', async () => {
+        const btn = document.getElementById('btn-phase3');
+        btn.disabled = true;
+        btn.innerHTML = '<span class="loading-spinner"></span>LLM Reviewing...';
+
+        const customPrompt = document.getElementById('custom-prompt').value;
+
+        try {
+            const res = await fetch('/api/phase3', { 
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ custom_prompt: customPrompt })
+            });
+            const data = await res.json();
+            if (data.error) throw new Error(data.error);
+
+            const div = document.getElementById('phase3-results');
+            div.innerHTML = `<p style="color: var(--success); font-weight: 600; margin-bottom: 15px;">✅ Final ranking complete — ${data.ranked_candidates.length} ranked · ${data.rejected_candidates.length} rejected</p>`;
+
+            data.ranked_candidates.forEach((c, i) => {
+                div.innerHTML += createFinalCard(c, i, true);
+            });
+            data.rejected_candidates.forEach((c, i) => {
+                div.innerHTML += createFinalCard(c, i + 200, false);
+            });
+
+            // Store data for download and show button
+            window.finalData = data;
+            document.getElementById('btn-download-json').style.display = 'inline-block';
+
+            btn.textContent = '✅ Phase 3 Complete — Pipeline Done!';
+            document.getElementById('btn-next').disabled = true;
+            document.getElementById('btn-next').textContent = '🎉 Done!';
+        } catch (e) {
+            alert('Phase 3 error: ' + e.message);
+            btn.disabled = false; btn.textContent = '▶ Run Phase 3: Review';
+        }
+    });
+
+    document.getElementById('btn-download-json').addEventListener('click', () => {
+        if (!window.finalData) return;
+        const blob = new Blob([JSON.stringify(window.finalData, null, 2)], { type: 'application/json' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'results.json';
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+    });
+
+    function createFinalCard(c, idx, isEligible) {
+        const sb = c.score_breakdown || {};
+        return `
+            <div class="result-card">
+                <div class="result-header" onclick="toggle('p3-${idx}')">
+                    <div style="display:flex;align-items:center;gap:10px;">
+                        ${isEligible ? `<div class="rank-badge">${c.rank}</div>` : ''}
+                        <span style="font-weight:600;">${esc(c.candidate_name)}</span>
+                        <span class="badge ${isEligible ? 'eligible' : 'rejected'}">${isEligible ? 'Eligible' : 'Rejected'}</span>
+                    </div>
+                    <div style="display:flex;align-items:center;gap:15px;">
+                        ${isEligible ? `<span class="score-display">${c.total_score}/100</span>` : ''}
+                        <span style="color:var(--text-muted);">▼</span>
+                    </div>
+                </div>
+                <div class="result-body" id="p3-${idx}">
+                    ${isEligible ? renderScoreBars(sb) : ''}
+                    ${c.project_summary ? `<div style="margin-bottom:15px;"><strong>📋 Summary:</strong> <span style="color:var(--text-muted);">${esc(c.project_summary)}</span></div>` : ''}
+                    ${c.github_summary ? `<div style="margin-bottom:15px;"><strong>🐙 GitHub:</strong> <span style="color:var(--text-muted);">${esc(c.github_summary)}</span></div>` : ''}
+                    ${c.strengths && c.strengths.length > 0 ? '<div style="margin-bottom:15px;"><strong>✅ Strengths:</strong>' + c.strengths.map(s => '<div class="strength-item">• ' + esc(s) + '</div>').join('') + '</div>' : ''}
+                    ${c.concerns && c.concerns.length > 0 ? '<div style="margin-bottom:15px;"><strong>⚠️ Concerns & Penalties:</strong>' + c.concerns.map(s => '<div class="concern-item">• ' + esc(s) + '</div>').join('') + '</div>' : ''}
+                    ${!isEligible && c.rejection_reasons && c.rejection_reasons.length > 0 ? '<div><strong>❌ Rejection:</strong>' + c.rejection_reasons.map(s => '<div class="concern-item">• ' + esc(s) + '</div>').join('') + '</div>' : ''}
+                    ${c.matched_skills && c.matched_skills.length > 0 ? '<div style="margin-top:10px;">' + c.matched_skills.map(s => '<span class="skill-chip">' + esc(s) + '</span>').join('') + '</div>' : ''}
+                </div>
+            </div>`;
+    }
+
+    function renderScoreBars(sb) {
+        const cats = [
+            { label: 'AI / Agentic Depth', key: 'ai_project_depth', max: 40, color: '#8b5cf6' },
+            { label: 'Python & Backend', key: 'python_backend', max: 30, color: '#3b82f6' },
+            { label: 'Cloud / Full Stack', key: 'cloud_fullstack', max: 15, color: '#06b6d4' },
+            { label: 'GitHub Activity', key: 'github', max: 10, color: '#10b981' },
+            { label: 'Engineering Depth', key: 'engineering_depth', max: 5, color: '#f59e0b' },
+        ];
+        return '<div style="margin-bottom:15px;">' + cats.map(c => `
+            <div class="score-bar-row">
+                <span class="score-bar-label">${c.label}</span>
+                <div class="score-bar-track">
+                    <div class="score-bar-fill" style="width:${((sb[c.key]||0)/c.max*100)}%;background:${c.color};"></div>
+                </div>
+                <span class="score-bar-value">${sb[c.key]||0}/${c.max}</span>
+            </div>
+        `).join('') + '</div>';
+    }
+
+    window.toggle = function(id) { document.getElementById(id).classList.toggle('show'); }
+
+    function esc(unsafe) {
+        return String(unsafe || '').replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");
+    }
+</script>
+</body>
+</html>

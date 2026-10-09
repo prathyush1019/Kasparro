@@ -1,0 +1,5 @@
+John Doe
+Python Developer
+Skills: Python, FastAPI, LangChain, Docker
+Projects: Built a RAG pipeline using LangChain and ChromaDB
+GitHub: https://github.com/johndoe
