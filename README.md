@@ -4,9 +4,9 @@ A production-minded, hybrid AI/deterministic pipeline for screening software eng
 
 ## Architecture
 
-This project was built with a dual-interface architecture:
-1. **CLI Mode:** Headless execution for batch processing.
-2. **FastAPI Web Wizard:** An interactive UI allowing step-by-step verification of the 4-phase pipeline (Parse ➔ Extract ➔ Score ➔ Review).
+This project uses a beautifully unified, dual-interface architecture inside a single `main.py` entry point:
+1. **FastAPI Web Wizard (No args):** An interactive UI allowing step-by-step verification of the 4-phase pipeline (Parse ➔ Extract ➔ Score ➔ Review), including a "One-Click" auto-run button.
+2. **CLI Mode (Args provided):** Headless execution for batch processing natively through the terminal.
 
 ## Setup Instructions
 
@@ -30,11 +30,11 @@ This project was built with a dual-interface architecture:
 ## Run Instructions
 
 ### Option 1: FastAPI Interactive Wizard (Recommended for visualization)
-Run the web server to access the step-by-step pipeline visualization:
+Run the web server to access the step-by-step UI:
 ```bash
-python api.py
+python main.py
 ```
-Then open `http://127.0.0.1:8000` in your browser.
+Then open `http://127.0.0.1:8000` in your browser. You can click the **"🚀 Run Full Pipeline"** button to automatically execute all 4 phases in one click!
 
 ### Option 2: CLI Batch Mode
 Run the pipeline headlessly via the command line:
