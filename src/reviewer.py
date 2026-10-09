@@ -193,8 +193,12 @@ async def review_candidate(scored: ScoredCandidate, custom_prompt: str = None, m
             current_prompt = prompt + f"\n\nYOUR PREVIOUS OUTPUT FAILED VALIDATION:\n{e}\nPlease fix the JSON."
 
         except Exception as e:
+            error_msg = str(e)
+            if "RESOURCE_EXHAUSTED" in error_msg or "429" in error_msg:
+                raise Exception("Resource exhausted in API key. Please check your quota or try again later.")
+                
             if attempt == max_retries - 1:
-                # For API errors that persist, fall back to base scores gracefully
+                # For non-quota API errors that persist, fall back to base scores gracefully
                 print(f"⚠️ LLM review API error for {scored.source_file}: {e}")
                 return CandidateResult(
                     candidate_name=scored.candidate_info.name,
@@ -207,5 +211,6 @@ async def review_candidate(scored: ScoredCandidate, custom_prompt: str = None, m
                     github_summary=scored.github_summary,
                 )
             import asyncio
-            print(f"⚠️ API/Traffic error on attempt {attempt + 1}/{max_retries} for {scored.source_file}: {e}. Retrying in 5 seconds...")
-            await asyncio.sleep(5)
+            delay = 3
+            print(f"⚠️ API/Traffic error on attempt {attempt + 1}/{max_retries} for {scored.source_file}: {e}. Retrying in {delay} seconds...")
+            await asyncio.sleep(delay)

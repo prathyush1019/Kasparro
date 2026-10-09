@@ -1,0 +1,598 @@
+{
+  "phase": 3,
+  "status": "success",
+  "ranked_candidates": [
+    {
+      "rank": 1,
+      "candidate_name": "Yash Maini",
+      "source_file": "candidate_13.pdf",
+      "eligible": true,
+      "total_score": 73,
+      "score_breakdown": {
+        "ai_project_depth": 35,
+        "python_backend": 23,
+        "cloud_fullstack": 13,
+        "github": 0,
+        "engineering_depth": 2
+      },
+      "matched_skills": [
+        "llm",
+        "pandas",
+        "ai agents",
+        "fine-tuning",
+        "multi-agent orchestration",
+        "fastapi",
+        "langgraph",
+        "claude",
+        "numpy",
+        "flask",
+        "tool calling",
+        "faiss",
+        "python",
+        "pinecone",
+        "Project: CopyGuard",
+        "qlora",
+        "openai",
+        "asyncio",
+        "embeddings",
+        "langchain",
+        "Project: Candida Hyphae Segmentation",
+        "rag",
+        "Project: ThreatMatrix"
+      ],
+      "project_summary": "Yash is a highly technical candidate with experience in building MLOps pipelines, medical image segmentation using custom UNet architectures, and serverless GenAI infrastructure.",
+      "github_summary": "Failed to fetch GitHub data (HTTP 403)",
+      "strengths": [
+        "Strong technical breadth across MLOps, deep learning, and cloud infrastructure",
+        "Demonstrated experience with complex workflows like medical image segmentation and network intrusion detection",
+        "Practical experience with production-grade tools like Terraform, Docker, and MLflow"
+      ],
+      "concerns": [
+        "No GitHub link provided to verify code quality or project implementation depth",
+        "CopyGuard project description leans heavily on infrastructure, leaving the specific AI logic implementation slightly ambiguous",
+        "-5: CopyGuard project description emphasizes infrastructure (Lambda/Terraform) over the specific AI logic, warranting a minor deduction for potential thin-wrapper risk in the absence of code visibility."
+      ],
+      "rejection_reasons": []
+    },
+    {
+      "rank": 2,
+      "candidate_name": "ABHINAV MISHRA",
+      "source_file": "candidate_10.pdf",
+      "eligible": true,
+      "total_score": 61,
+      "score_breakdown": {
+        "ai_project_depth": 30,
+        "python_backend": 19,
+        "cloud_fullstack": 11,
+        "github": 0,
+        "engineering_depth": 1
+      },
+      "matched_skills": [
+        "Project: Decipath AI",
+        "Project: Construct IDE",
+        "agentic workflows",
+        "python",
+        "fastapi",
+        "openai api",
+        "langgraph",
+        "rag"
+      ],
+      "project_summary": "Abhinav has built complex AI-native applications including an AI-teaching IDE using LangGraph and a roadmap-generation SaaS, alongside a custom blockchain implementation in Python.",
+      "github_summary": "Failed to fetch GitHub data (HTTP 403)",
+      "strengths": [
+        "Strong experience with agentic workflows and LangGraph",
+        "Demonstrated ability to integrate complex stacks (Electron, Prisma, Turborepo)",
+        "Solid professional experience with modern full-stack tools like NestJS and tRPC"
+      ],
+      "concerns": [
+        "No GitHub link provided to verify code quality or project depth",
+        "Potential for AI projects to be over-reliant on OpenAI API calls without sufficient local logic",
+        "Limited evidence of deep Python backend engineering outside of the blockchain project",
+        "-10: AI project depth reduced due to potential reliance on OpenAI API for core functionality in 'Decipath AI' and 'Construct IDE' without explicit evidence of custom model fine-tuning or complex local evaluation logic."
+      ],
+      "rejection_reasons": []
+    },
+    {
+      "rank": 3,
+      "candidate_name": "Arjun Kumar",
+      "source_file": "candidate_08.pdf",
+      "eligible": true,
+      "total_score": 60,
+      "score_breakdown": {
+        "ai_project_depth": 30,
+        "python_backend": 20,
+        "cloud_fullstack": 9,
+        "github": 0,
+        "engineering_depth": 1
+      },
+      "matched_skills": [
+        "prompt engineering",
+        "agentic ai",
+        "django rest api",
+        "Project: AI-Powered Resume Screening & Job Matching System",
+        "python",
+        "fastapi",
+        "Project: Deepfake Detection System (Multimodal & Explainable AI)",
+        "langgraph",
+        "langchain",
+        "rag",
+        "llms"
+      ],
+      "project_summary": "Arjun developed a resume screening tool using BERT embeddings and a multimodal deepfake detection system utilizing Vision Transformers and LangGraph.",
+      "github_summary": "Failed to fetch GitHub data (HTTP 403)",
+      "strengths": [
+        "Strong technical stack including FastAPI, Django, and React",
+        "Experience with advanced AI concepts like RAG, LangGraph, and Vision Transformers",
+        "Demonstrated ability to integrate AI models into full-stack applications"
+      ],
+      "concerns": [
+        "No GitHub link provided to verify code quality or project implementation",
+        "Lack of evidence regarding deployment or production-level scaling of AI projects",
+        "AI projects appear slightly generic; depth of implementation details is missing",
+        "-10: AI projects lack sufficient detail on data pipeline complexity and evaluation metrics, suggesting potential reliance on high-level library abstractions rather than deep engineering."
+      ],
+      "rejection_reasons": []
+    },
+    {
+      "rank": 4,
+      "candidate_name": "PRIYANSHU KUMAR",
+      "source_file": "candidate_16.pdf",
+      "eligible": true,
+      "total_score": 52,
+      "score_breakdown": {
+        "ai_project_depth": 35,
+        "python_backend": 13,
+        "cloud_fullstack": 3,
+        "github": 0,
+        "engineering_depth": 1
+      },
+      "matched_skills": [
+        "Project: PR Sentinel – AI",
+        "llm",
+        "prompt engineering",
+        "python",
+        "embeddings & vector db",
+        "fastapi",
+        "Project: AI Conversation Assistant",
+        "pinecone vdb",
+        "crewai",
+        "langgraph",
+        "langchain",
+        "rag",
+        "deepagents architecture"
+      ],
+      "project_summary": "Priyanshu has developed agentic workflows including a GitHub PR analysis engine using LangGraph and a real-time voice assistant with RAG and task routing.",
+      "github_summary": "Failed to fetch GitHub data (HTTP 403)",
+      "strengths": [
+        "Strong familiarity with modern agentic frameworks like LangGraph and CrewAI",
+        "Experience integrating LLMs with external tools like Jira, Slack, and web search",
+        "Professional experience at NTT Data involving AI and FastAPI"
+      ],
+      "concerns": [
+        "No GitHub link provided to verify code quality or project implementation",
+        "Lack of evidence regarding deployment or cloud infrastructure management despite listing Nginx and Cloudflare",
+        "Engineering depth score remains low due to lack of detail on system design challenges or performance optimization",
+        "-5: Minor deduction for AI project depth as the 'AI Conversation Assistant' relies heavily on standard API/library integrations without deep custom model training or unique architectural innovation."
+      ],
+      "rejection_reasons": []
+    },
+    {
+      "rank": 5,
+      "candidate_name": "M SAI KUSHITH",
+      "source_file": "candidate_06.pdf",
+      "eligible": true,
+      "total_score": 48,
+      "score_breakdown": {
+        "ai_project_depth": 25,
+        "python_backend": 20,
+        "cloud_fullstack": 3,
+        "github": 0,
+        "engineering_depth": 0
+      },
+      "matched_skills": [
+        "Project: Cancer Disease Detection",
+        "prompt engineering",
+        "python",
+        "Project: PDF Document Analysis System",
+        "fastapi",
+        "django",
+        "nvidia nim llm",
+        "langgraph",
+        "langchain",
+        "rag"
+      ],
+      "project_summary": "The candidate has experience with ML classification models for genomic data and NLP-based PDF analysis, alongside professional experience integrating LLMs and geospatial tools.",
+      "github_summary": "Failed to fetch GitHub data (HTTP 403)",
+      "strengths": [
+        "Strong technical stack including Django, FastAPI, and React",
+        "Professional experience with modern AI tools like Nvidia NIM and Tesseract OCR",
+        "Demonstrated ability to integrate complex geospatial and media APIs"
+      ],
+      "concerns": [
+        "Lack of public GitHub profile or code samples to verify engineering depth",
+        "Project descriptions are high-level and lack specific details on architecture, state management, or evaluation metrics",
+        "No evidence of cloud deployment or CI/CD practices",
+        "-15: AI projects lack sufficient detail regarding implementation, architecture, or evaluation, suggesting they may be basic implementations or tutorial-based."
+      ],
+      "rejection_reasons": []
+    },
+    {
+      "rank": 6,
+      "candidate_name": "SHUBHANSHU NAVADIYA",
+      "source_file": "candidate_12.pdf",
+      "eligible": true,
+      "total_score": 45,
+      "score_breakdown": {
+        "ai_project_depth": 30,
+        "python_backend": 13,
+        "cloud_fullstack": 2,
+        "github": 0,
+        "engineering_depth": 0
+      },
+      "matched_skills": [
+        "pandas",
+        "gpt-4o",
+        "fastapi",
+        "streamlit",
+        "llamaindex",
+        "numpy",
+        "python",
+        "openai api",
+        "Project: Automated Stock News AI Agent",
+        "weaviate",
+        "semantic search",
+        "vllm",
+        "gemini api",
+        "embeddings",
+        "Project: Automated Financial Expense Classification",
+        "crewai",
+        "langchain",
+        "microsoft autogen",
+        "hugging face transformers"
+      ],
+      "project_summary": "Shubhanshu has developed an automated financial news agent and an ML-based expense classification pipeline, complemented by AI internships involving RAG and sequence modeling.",
+      "github_summary": "Failed to fetch GitHub data (HTTP 403)",
+      "strengths": [
+        "Strong technical stack including modern LLM orchestration tools like LangChain and LlamaIndex",
+        "Practical experience with ML pipelines and ensemble models for classification",
+        "Demonstrated ability to integrate diverse data sources like RSS feeds and financial datasets"
+      ],
+      "concerns": [
+        "No GitHub link provided to verify code quality or project implementation depth",
+        "The 'Automated Stock News AI Agent' appears to be a relatively simple orchestration task, warranting a penalty for depth",
+        "Lack of evidence regarding production-grade engineering practices or deployment beyond basic GitHub Actions",
+        "-10: The 'Automated Stock News AI Agent' is a thin wrapper around the Gemini API with basic RSS aggregation, lacking complex state management or advanced agentic workflows."
+      ],
+      "rejection_reasons": []
+    },
+    {
+      "rank": 7,
+      "candidate_name": "HARSHA A",
+      "source_file": "candidate_15.pdf",
+      "eligible": true,
+      "total_score": 43,
+      "score_breakdown": {
+        "ai_project_depth": 25,
+        "python_backend": 16,
+        "cloud_fullstack": 2,
+        "github": 0,
+        "engineering_depth": 0
+      },
+      "matched_skills": [
+        "pandas",
+        "python",
+        "Project: Skin Cancer Detection using Deep Learning",
+        "fastapi",
+        "Project: Motion Detection",
+        "numpy"
+      ],
+      "project_summary": "Harsha has experience developing computer vision applications, including a skin cancer detection system and an AI-based attendance platform using YOLOv8 and InsightFace.",
+      "github_summary": "No GitHub profile found in resume",
+      "strengths": [
+        "Strong foundation in computer vision and deep learning libraries like TensorFlow and OpenCV",
+        "Practical experience with FastAPI and PostgreSQL in a professional setting",
+        "Exposure to specialized domains like DICOM and biometric recognition"
+      ],
+      "concerns": [
+        "Lack of GitHub presence makes it impossible to verify code quality or engineering depth",
+        "AI projects appear to be standard academic/tutorial implementations rather than complex agentic workflows",
+        "No evidence of cloud deployment or modern DevOps practices",
+        "-10: Skin Cancer Detection is a standard CNN classification project, not a complex AI/Agentic workflow",
+        "-5: Motion Detection is a basic OpenCV tutorial-style project lacking depth"
+      ],
+      "rejection_reasons": []
+    },
+    {
+      "rank": 8,
+      "candidate_name": "candidate_03",
+      "source_file": "candidate_03.pdf",
+      "eligible": true,
+      "total_score": 39,
+      "score_breakdown": {
+        "ai_project_depth": 15,
+        "python_backend": 16,
+        "cloud_fullstack": 7,
+        "github": 0,
+        "engineering_depth": 1
+      },
+      "matched_skills": [
+        "fastapi",
+        "Project: MicroScroll",
+        "python"
+      ],
+      "project_summary": "Developed MicroScroll, a platform utilizing semantic chunking for document-to-study-deck conversion, and OneMinuteLabs, a full-stack platform for interactive coding challenges.",
+      "github_summary": "No GitHub profile found in resume",
+      "strengths": [
+        "Strong full-stack proficiency with modern frameworks like React, Next.js, and Express.js",
+        "Experience with database technologies including PostgreSQL, MongoDB, and Redis",
+        "Professional experience in both corporate and startup environments"
+      ],
+      "concerns": [
+        "Lack of public GitHub profile or code samples to verify engineering quality",
+        "AI project description lacks specific details on the LLM integration or orchestration logic, suggesting potential reliance on basic API calls",
+        "Limited evidence of advanced Python backend architecture beyond basic framework usage",
+        "-5: AI project 'MicroScroll' lacks explicit mention of orchestration, evaluation, or complex agentic workflows, suggesting a potential thin wrapper implementation."
+      ],
+      "rejection_reasons": []
+    },
+    {
+      "rank": 9,
+      "candidate_name": "Jyandeep Baishya",
+      "source_file": "candidate_07.pdf",
+      "eligible": true,
+      "total_score": 38,
+      "score_breakdown": {
+        "ai_project_depth": 20,
+        "python_backend": 13,
+        "cloud_fullstack": 4,
+        "github": 0,
+        "engineering_depth": 1
+      },
+      "matched_skills": [
+        "tool calling",
+        "multi-agent systems",
+        "python",
+        "langgraph",
+        "fastapi",
+        "llmops",
+        "chromadb",
+        "Project: Agentic RAG Assistant",
+        "langchain",
+        "rag"
+      ],
+      "project_summary": "Jyandeep developed an agentic RAG assistant using LangGraph, FastAPI, and Elasticsearch, featuring human-in-the-loop workflows and CI-integrated evaluation.",
+      "github_summary": "Failed to fetch GitHub data (HTTP 403)",
+      "strengths": [
+        "Strong alignment with modern AI agentic stacks (LangGraph, ReAct, MCP)",
+        "Professional experience as a Founding Engineer and Software Engineer",
+        "Evidence of complex backend integration (Redis, Elasticsearch, SSE)"
+      ],
+      "concerns": [
+        "No GitHub link provided, making it impossible to verify code quality or project depth",
+        "Low engineering depth score due to lack of specific architectural details in the resume",
+        "Missing evidence of deployment or cloud infrastructure management beyond S3"
+      ],
+      "rejection_reasons": []
+    },
+    {
+      "rank": 10,
+      "candidate_name": "Yuvaraj R",
+      "source_file": "candidate_04.pdf",
+      "eligible": true,
+      "total_score": 33,
+      "score_breakdown": {
+        "ai_project_depth": 15,
+        "python_backend": 15,
+        "cloud_fullstack": 3,
+        "github": 0,
+        "engineering_depth": 0
+      },
+      "matched_skills": [
+        "pandas",
+        "python",
+        "django",
+        "streamlit",
+        "Project: Waste Image Classification",
+        "numpy"
+      ],
+      "project_summary": "Yuvaraj developed a full-stack property management system using Django and a CNN-based image classification pipeline for waste management.",
+      "github_summary": "Failed to fetch GitHub data (HTTP 403)",
+      "strengths": [
+        "Solid foundation in Python and Django for backend development",
+        "Experience with containerization tools like Docker and CI/CD via Jenkins",
+        "Practical experience with data visualization and machine learning pipelines"
+      ],
+      "concerns": [
+        "Lack of visible GitHub activity or portfolio links",
+        "AI project description is high-level and lacks detail on model architecture, training data, or deployment specifics",
+        "Limited evidence of complex engineering depth or system design experience",
+        "-5: AI project 'Waste Image Classification' lacks sufficient detail on implementation, evaluation, or deployment complexity to justify full points"
+      ],
+      "rejection_reasons": []
+    },
+    {
+      "rank": 11,
+      "candidate_name": "JAYA NANDI",
+      "source_file": "candidate_14.pdf",
+      "eligible": true,
+      "total_score": 28,
+      "score_breakdown": {
+        "ai_project_depth": 15,
+        "python_backend": 8,
+        "cloud_fullstack": 5,
+        "github": 0,
+        "engineering_depth": 0
+      },
+      "matched_skills": [
+        "pandas",
+        "Project: Job Shop Scheduling Using SGO",
+        "numpy",
+        "python"
+      ],
+      "project_summary": "Jaya developed a meta-heuristic algorithm for job shop scheduling and built a responsive web application focusing on UI performance optimization.",
+      "github_summary": "Failed to fetch GitHub data (HTTP 403)",
+      "strengths": [
+        "Strong foundation in Python and data analysis tools",
+        "Experience with meta-heuristic algorithms for optimization problems",
+        "Demonstrated ability to improve frontend performance"
+      ],
+      "concerns": [
+        "Lack of visible GitHub profile or code samples to verify implementation depth",
+        "Limited evidence of backend engineering or cloud architecture beyond basic skill listing",
+        "The AI project description lacks detail on the implementation of the SGO algorithm, making it difficult to assess technical complexity",
+        "-5: AI project 'Job Shop Scheduling' lacks sufficient detail on implementation, architecture, or data handling to justify the full base score"
+      ],
+      "rejection_reasons": []
+    },
+    {
+      "rank": 12,
+      "candidate_name": "VISHWAS BADIGER",
+      "source_file": "candidate_05.pdf",
+      "eligible": true,
+      "total_score": 24,
+      "score_breakdown": {
+        "ai_project_depth": 10,
+        "python_backend": 12,
+        "cloud_fullstack": 2,
+        "github": 0,
+        "engineering_depth": 0
+      },
+      "matched_skills": [
+        "Project: Soil Classification for Sustainable Agriculture",
+        "flask",
+        "python"
+      ],
+      "project_summary": "The candidate developed a soil classification web application using Scikit-learn and Flask, alongside a full-stack event management system.",
+      "github_summary": "No GitHub profile found in resume",
+      "strengths": [
+        "Solid foundation in full-stack development with experience in Java, Spring Boot, and React.",
+        "Practical experience with Python-based machine learning libraries like Scikit-learn."
+      ],
+      "concerns": [
+        "The AI project lacks detail regarding data pipeline, model evaluation, or deployment architecture, suggesting a basic implementation.",
+        "No evidence of GitHub activity or open-source contributions.",
+        "Limited exposure to cloud infrastructure or modern DevOps practices.",
+        "The AI project description is generic and lacks evidence of advanced agentic workflows or complex data processing.",
+        "-10: The 'Soil Classification' project lacks depth in data engineering or advanced AI workflows, appearing as a standard tutorial-level classification task."
+      ],
+      "rejection_reasons": []
+    },
+    {
+      "rank": 13,
+      "candidate_name": "KRISHAN KANT",
+      "source_file": "candidate_09.pdf",
+      "eligible": true,
+      "total_score": 24,
+      "score_breakdown": {
+        "ai_project_depth": 10,
+        "python_backend": 5,
+        "cloud_fullstack": 5,
+        "github": 0,
+        "engineering_depth": 4
+      },
+      "matched_skills": [
+        "llm",
+        "Project: AI-Powered Resume Screener",
+        "python",
+        "vector search",
+        "langchain",
+        "rag",
+        "openai api integration"
+      ],
+      "project_summary": "Krishan Kant has developed a Java-based resume screening tool using Spring AI and a digital wallet platform featuring secure authentication and payment integration.",
+      "github_summary": "Failed to fetch GitHub data (HTTP 403)",
+      "strengths": [
+        "Strong backend engineering foundation with Java/Spring Boot",
+        "Experience with production-grade features like JWT rotation, TOTP, and Prometheus metrics",
+        "Familiarity with containerization and microservices architecture"
+      ],
+      "concerns": [
+        "AI project is primarily a Java/Spring wrapper around OpenAI API with limited evidence of custom AI logic",
+        "Minimal evidence of Python proficiency despite listing it as a skill",
+        "No GitHub link provided to verify code quality or project depth",
+        "-10: AI project is a thin wrapper around OpenAI API via Spring AI with no evidence of custom model training, fine-tuning, or complex agentic workflows",
+        "-6: Python backend score reduced significantly as the candidate's primary projects are Java-based and there is no evidence of Python usage in the provided project descriptions"
+      ],
+      "rejection_reasons": []
+    }
+  ],
+  "rejected_candidates": [
+    {
+      "rank": null,
+      "candidate_name": "Kartikay Sinha",
+      "source_file": "candidate_01.pdf",
+      "eligible": false,
+      "total_score": 0,
+      "score_breakdown": {
+        "ai_project_depth": 0,
+        "python_backend": 0,
+        "cloud_fullstack": 0,
+        "github": 0,
+        "engineering_depth": 0
+      },
+      "matched_skills": [
+        "Project: Background Removal SaaS"
+      ],
+      "project_summary": null,
+      "github_summary": "Failed to fetch GitHub data (HTTP 403)",
+      "strengths": [],
+      "concerns": [],
+      "rejection_reasons": [
+        "No evidence of Python stack in skills, projects, or work experience"
+      ]
+    },
+    {
+      "rank": null,
+      "candidate_name": "SHIVAM RAJ",
+      "source_file": "candidate_02.pdf",
+      "eligible": false,
+      "total_score": 0,
+      "score_breakdown": {
+        "ai_project_depth": 0,
+        "python_backend": 0,
+        "cloud_fullstack": 0,
+        "github": 0,
+        "engineering_depth": 0
+      },
+      "matched_skills": [],
+      "project_summary": null,
+      "github_summary": "No GitHub profile found in resume",
+      "strengths": [],
+      "concerns": [],
+      "rejection_reasons": [
+        "No evidence of Python stack in skills, projects, or work experience",
+        "No AI/agentic/LLM/RAG project or framework evidence found"
+      ]
+    },
+    {
+      "rank": null,
+      "candidate_name": "MD AZIZUL ISLAM",
+      "source_file": "candidate_11.pdf",
+      "eligible": false,
+      "total_score": 0,
+      "score_breakdown": {
+        "ai_project_depth": 0,
+        "python_backend": 0,
+        "cloud_fullstack": 0,
+        "github": 0,
+        "engineering_depth": 0
+      },
+      "matched_skills": [
+        "llm api integration",
+        "openai gpt api",
+        "retrieval-augmented generation (rag)",
+        "vector embeddings",
+        "vector databases",
+        "Project: AI-Powered Fake News Detection Platform",
+        "semantic search"
+      ],
+      "project_summary": null,
+      "github_summary": "Failed to fetch GitHub data (HTTP 403)",
+      "strengths": [],
+      "concerns": [],
+      "rejection_reasons": [
+        "No evidence of Python stack in skills, projects, or work experience"
+      ]
+    }
+  ]
+}

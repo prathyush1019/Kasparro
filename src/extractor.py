@@ -73,7 +73,14 @@ async def extract_candidate_info(markdown_text: str, filename: str, max_retries:
             current_prompt = base_prompt + f"\n\nYOUR PREVIOUS OUTPUT FAILED VALIDATION WITH THIS ERROR:\n{e}\n\nPlease fix the JSON structure."
             
         except Exception as e:
+            error_msg = str(e)
+            if "RESOURCE_EXHAUSTED" in error_msg or "429" in error_msg:
+                raise Exception("Resource exhausted in API key. Please check your quota or try again later.")
+                
             if attempt == max_retries - 1:
                 raise e
-            print(f"⚠️ API/Traffic error on attempt {attempt + 1}/{max_retries} for {filename}: {e}. Retrying in 5 seconds...")
-            await asyncio.sleep(5)
+            
+            import asyncio
+            delay = 3 # Standard 3s delay for generic errors
+            print(f"⚠️ API/Traffic error on attempt {attempt + 1}/{max_retries} for {filename}: {e}. Retrying in {delay} seconds...")
+            await asyncio.sleep(delay)
